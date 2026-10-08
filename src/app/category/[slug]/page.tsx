@@ -1,6 +1,9 @@
 
 import { Hind_Siliguri } from "next/font/google";
+export const instant = false;
 import CategoryProductsList from "./CategoryProductsList";
+import Link from "next/link";
+import { Suspense } from "react";
 const banglaFont = Hind_Siliguri({
     subsets: ["bengali"],
     weight: ["400", "500", "600", "700"],
@@ -25,22 +28,23 @@ interface Product {
     };
 }
 
-const toBanglaNumber = (value: number | string | undefined) => {
-    if (value == null) {
-        return '';
+const toBanglaNumber = (
+    value: number | string | null | undefined
+): string => {
+    if (value === null || value === undefined || value === "") {
+        return "";
     }
-    const digits = "০১২৩৪৫৬৭৮৯";
 
     return value.toString().replace(/[0-9]/g, (digit) => {
-        return digits[Number(digit)];
+        return "০১২৩৪৫৬৭৮৯"[Number(digit)];
     });
 };
 
 export default async function CategoryProducts({ params, }: { params: { slug: string } }) {
     'use cache';
-    const { slug } = await params; 
+    const { slug } = await params;
     const [catRes, prodRes] = await Promise.all([
-        fetch(`https://api.abcz.workers.dev/api/bazardor/categories/${slug}`), 
+        fetch(`https://api.abcz.workers.dev/api/bazardor/categories/${slug}`),
         fetch(`https://api.abcz.workers.dev/api/bazardor/products?category=${slug}`
 
         ),
@@ -55,7 +59,7 @@ export default async function CategoryProducts({ params, }: { params: { slug: st
         >
             <div className="max-w-7xl mx-auto space-y-6">
 
-               
+
                 <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex items-center space-x-4 space-x-reverse">
                     <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl">
                         {category.icon}
@@ -72,7 +76,16 @@ export default async function CategoryProducts({ params, }: { params: { slug: st
                     </div>
                 </div>
 
-                <CategoryProductsList products={products} />
+                <Suspense
+                    fallback={
+                        <div className="p-6 text-center">
+                            পণ্য লোড হচ্ছে...
+                        </div>
+                    }
+                >
+                    <CategoryProductsList products={products} />
+                </Suspense>
+                
 
             </div>
         </div>

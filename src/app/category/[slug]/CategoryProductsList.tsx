@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 
 interface Product {
@@ -86,55 +87,56 @@ export default function CategoryProductsList({ products }: ProductSortProps) {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {sortedProducts.map((product) => (
-                    <div
-                        key={product.id}
-                        className="bg-[#FAFCFA] rounded-2xl p-5 shadow-sm border border-gray-100/80 flex flex-col justify-between hover:shadow-md transition-shadow"
-                    >
+                    <Link key={product.id} href={`/product/${product.id}`}>
+                        <div
+                            className="bg-[#FAFCFA] rounded-2xl p-5 shadow-sm border border-gray-100/80 flex flex-col justify-between hover:shadow-md transition-shadow"
+                        >
 
-                        <div className="flex items-center">
-                            <div className="w-12 h-12 rounded-xl bg-[#F0F5F0] flex items-center justify-center text-2xl flex-shrink-0">
-                                {product.image}
-                            </div>
+                            <div className="flex items-center">
+                                <div className="w-12 h-12 rounded-xl bg-[#F0F5F0] flex items-center justify-center text-2xl flex-shrink-0">
+                                    {product.image}
+                                </div>
 
-                            <div>
-                                <h3 className="text-base font-bold text-gray-900 px-3 leading-tight">
-                                    {product.nameBn}
-                                </h3>
+                                <div>
+                                    <h3 className="text-base font-bold text-gray-900 px-3 leading-tight">
+                                        {product.nameBn}
+                                    </h3>
 
-                                <p className="text-xs text-gray-500 font-medium px-3 mt-1">
-                                    {unitInBangla[product.unit.toLowerCase()] || product.unit}
-                                </p>
-                            </div>
-                        </div>
-
-
-                        <div className="flex items-end justify-between mt-4">
-                            <div>
-                                <span className="text-xs text-gray-500 font-medium block mb-0.5">
-                                    আজকের দাম
-                                </span>
-
-                                <div className="flex items-baseline space-x-1">
-                                    <span className="text-lg font-bold text-gray-900">
-                                        {toBanglaNumber(product.today)}
-                                    </span>
-
-                                    <span className="text-sm font-semibold text-gray-900">
-                                        টাকা
-                                    </span>
+                                    <p className="text-xs text-gray-500 font-medium px-3 mt-1">
+                                        {unitInBangla[product.unit.toLowerCase()] || product.unit}
+                                    </p>
                                 </div>
                             </div>
 
 
-                            <div className="bg-[#F0F5F0] text-[#D03739] text-xs font-bold px-2.5 py-1 rounded-lg flex items-center space-x-1">
-                                <span className="text-[10px]">▲</span>
+                            <div className="flex items-end justify-between mt-4">
+                                <div>
+                                    <span className="text-xs text-gray-500 font-medium block mb-0.5">
+                                        আজকের দাম
+                                    </span>
 
-                                <span>
-                                    {toBanglaNumber(product.change.pct)}%
-                                </span>
+                                    <div className="flex items-baseline space-x-1">
+                                        <span className="text-lg font-bold text-gray-900">
+                                            {toBanglaNumber(product.today)}
+                                        </span>
+
+                                        <span className="text-sm font-semibold text-gray-900">
+                                            টাকা
+                                        </span>
+                                    </div>
+                                </div>
+
+
+                                <div className="bg-[#F0F5F0] text-[#D03739] text-xs font-bold px-2.5 py-1 rounded-lg flex items-center space-x-1">
+                                    <span className="text-[10px]">▲</span>
+
+                                    <span>
+                                        {toBanglaNumber(product.change.pct)}%
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </Link>
                 ))}
             </div>
         </>

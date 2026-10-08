@@ -1,0 +1,249 @@
+import { Hind_Siliguri } from "next/font/google";
+export const instant = false;
+const banglaFont = Hind_Siliguri({
+    subsets: ["bengali"],
+    weight: ["400", "500", "600", "700"],
+});
+
+interface Market {
+    market: string;
+    division: string;
+    minPrice: number;
+    maxPrice: number;
+    avgPrice: number;
+}
+
+interface Product {
+    id: string;
+    nameBn: string;
+    unit: string;
+    today: number;
+    image: string;
+    change: {
+        dir: "up" | "down";
+        pct: number;
+    };
+    minPrice: number;
+    maxPrice: number;
+    avgPrice: number;
+    markets: Market[];
+}
+
+interface PageProps {
+    params: Promise<{
+        id: string;
+    }>;
+}
+
+const toBanglaNumber = (
+    value: number | string | null | undefined
+): string => {
+    if (value === null || value === undefined || value === "") {
+        return "";
+    }
+
+    return value.toString().replace(/[0-9]/g, (digit) => {
+        return "০১২৩৪৫৬৭৮৯"[Number(digit)];
+    });
+};
+
+export default async function ProductDetail({ params }: PageProps) {
+    "use cache";
+
+    const { id } = await params;
+
+    const res = await fetch(
+        `https://api.abcz.workers.dev/api/bazardor/products/${id}`
+    );
+
+    const product: Product = await res.json();
+
+    const isUp = product.change.dir === "up";
+
+    return (
+        <div
+            className={`${banglaFont.className} w-full bg-[#f4f6f3] min-h-screen py-6 px-4 sm:px-6 lg:px-8`}
+        >
+            <div className="max-w-6xl mx-auto space-y-6">
+
+                {/* Breadcrumb */}
+                <nav className="text-xs sm:text-sm text-gray-500 flex items-center space-x-2 space-x-reverse font-medium">
+                    <span>হোম</span>
+                    <span>›</span>
+                    <span>চাল</span>
+                    <span>›</span>
+                    <span className="text-gray-800">{product.nameBn}</span>
+                </nav>
+
+                {/* Product Header */}
+                <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+
+                    <div className="flex items-start space-x-4 space-x-reverse">
+                        <div className="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center text-3xl">
+                            {product.image}
+                        </div>
+
+                        <div>
+                            <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900">
+                                {product.nameBn}
+                            </h1>
+
+                            <p className="text-xs sm:text-sm text-gray-500 font-medium mt-1">
+                                {product.unit}
+                            </p>
+
+                            <p className="text-xs text-gray-500 font-medium mt-1">
+                                গতকালকের তুলনায় আজ দাম{" "}
+                                <span
+                                    className={
+                                        isUp ? "font-bold text-red-600" : "font-bold text-emerald-600"
+                                    }
+                                >
+                                    {isUp ? "বেড়েছে" : "কমেছে"}
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Today's Price */}
+                    <div className="bg-[#f8f9fa] border border-gray-100 rounded-xl p-4 text-center min-w-[140px]">
+                        <span className="text-xs text-gray-500 font-medium block">
+                            আজকের দাম
+                        </span>
+
+                        <div className="text-3xl font-extrabold text-gray-900 my-0.5">
+                            {toBanglaNumber(product.today)}
+                        </div>
+
+                        <span className="text-xs text-gray-500 font-medium block">
+                            টাকা / কেজি
+                        </span>
+
+                        <div
+                            className={`mt-1 text-xs font-bold flex items-center justify-center ${isUp ? "text-red-600" : "text-emerald-600"
+                                }`}
+                        >
+                            <span>{isUp ? "▲" : "▼"}</span>
+                            <span className="ml-1">
+                                {toBanglaNumber(product.change.pct)}%
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Details */}
+                <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 space-y-6">
+
+                    {/* Price Summary */}
+                    <div>
+                        <h2 className="text-base sm:text-lg font-bold text-gray-900 mb-4">
+                            দামের সারসংক্ষেপ
+                        </h2>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+
+                            <div className="bg-[#fbfcfb] border border-gray-100/80 rounded-xl p-4">
+                                <span className="text-xs text-gray-500 font-medium block">
+                                    সর্বনিম্ন দাম
+                                </span>
+
+                                <div className="text-xl font-bold text-emerald-600 my-1">
+                                    {toBanglaNumber(product.minPrice)}{" "}
+                                    <span className="text-sm">টাকা</span>
+                                </div>
+
+                                <span className="text-xs text-gray-400 font-medium">
+                                    সবচেয়ে কম দামের বাজার
+                                </span>
+                            </div>
+
+                            <div className="bg-[#fbfcfb] border border-gray-100/80 rounded-xl p-4">
+                                <span className="text-xs text-gray-500 font-medium block">
+                                    সর্বাধিক দাম
+                                </span>
+
+                                <div className="text-xl font-bold text-red-600 my-1">
+                                    {toBanglaNumber(product.maxPrice)}{" "}
+                                    <span className="text-sm">টাকা</span>
+                                </div>
+
+                                <span className="text-xs text-gray-400 font-medium">
+                                    সবচেয়ে বেশি দামের বাজার
+                                </span>
+                            </div>
+
+                            <div className="bg-[#fbfcfb] border border-gray-100/80 rounded-xl p-4">
+                                <span className="text-xs text-gray-500 font-medium block">
+                                    গড় দাম
+                                </span>
+
+                                <div className="text-xl font-bold text-emerald-600 my-1">
+                                    {toBanglaNumber(product.avgPrice)}{" "}
+                                    <span className="text-sm">টাকা</span>
+                                </div>
+
+                                <span className="text-xs text-gray-400 font-medium">
+                                    প্রতি কেজি-এর হিসাবে
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    {/* Market Table */}
+                    <div>
+                        <h2 className="text-base sm:text-lg font-bold text-gray-900 mb-4">
+                            বাজারভিত্তিক আজকের দাম
+                        </h2>
+
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-left border-collapse">
+
+                                <thead>
+                                    <tr className="border-b border-gray-100 text-xs sm:text-sm font-semibold text-gray-600">
+                                        <th className="py-3 px-2">বাজার</th>
+                                        <th className="py-3 px-2">বিভাগ</th>
+                                        <th className="py-3 px-2">সর্বনিম্ন</th>
+                                        <th className="py-3 px-2">সর্বাধিক</th>
+                                        <th className="py-3 px-2 text-right">গড়</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody className="divide-y divide-gray-100 text-xs sm:text-sm font-medium text-gray-800">
+                                    {product.markets.map((market) => (
+                                        <tr
+                                            key={market.market}
+                                            className="hover:bg-gray-50/50 transition-colors"
+                                        >
+                                            <td className="py-3.5 px-2 font-semibold text-gray-900">
+                                                {market.market}
+                                            </td>
+
+                                            <td className="py-3.5 px-2 text-gray-500">
+                                                {market.division}
+                                            </td>
+
+                                            <td className="py-3.5 px-2 text-gray-700">
+                                                {toBanglaNumber(market.minPrice)} টাকা
+                                            </td>
+
+                                            <td className="py-3.5 px-2 text-gray-700">
+                                                {toBanglaNumber(market.maxPrice)} টাকা
+                                            </td>
+
+                                            <td className="py-3.5 px-2 text-right font-bold text-gray-900">
+                                                {toBanglaNumber(market.avgPrice)} টাকা
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    );
+}
