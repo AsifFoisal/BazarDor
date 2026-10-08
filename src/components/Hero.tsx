@@ -13,26 +13,25 @@ export default function Hero() {
             <div className="">
                 <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12">
 
-                    {/* Left Text Content */}
+                   
                     <div className="flex-1 space-y-5 text-left">
-                        {/* Date Badge */}
+                       
                         <div className="inline-block">
                             <span className={` ${banglaFont.className} bg-[#e6f4ea] text-[#05893E] text-sm font-medium px-4 py-1.5 rounded-full`}>
                                 {date}
                             </span>
                         </div>
 
-                        {/* Main Heading */}
+                     
                         <h1 className={`text-3xl sm:text-4xl md:text-4xl font-extrabold text-gray-900 leading-tight tracking-tight ${banglaFont.className}`}>
                             আজকের বাজারের দাম এক নজরে
                         </h1>
 
-                        {/* Subtitle Paragraph */}
+                      
                         <p className={` ${banglaFont.className} text-gray-600 text-base sm:text-lg leading-relaxed`}>
                             চাল, ডাল, তেল, সবজি, মাছ, মাংস, ডিম ও মসলার দাম — বাজারভিত্তিক বিস্তারিত, গড়, সর্বনিম্ন-সর্বাধিক এবং দামের পরিবর্তন এক জায়গায়।
                         </p>
 
-                        {/* CTA Button */}
                         <div className="pt-2">
                             <button
                                 type="button"
@@ -43,7 +42,7 @@ export default function Hero() {
                         </div>
                     </div>
 
-                    {/* Right Hero SVG Illustration */}
+              
                     <div className="flex-1 flex justify-center md:justify-end w-full max-w-md">
                         <div className="relative w-full max-w-[320px] sm:max-w-90">
                             <Image src="/bazar-hero.png" alt="Hero Illustration" width={420} height={360}/>

@@ -57,7 +57,7 @@ export default async function PriceDecreased() {
         <section className={"w-full py-8 px-4 sm:px-6 lg:px-8 " + banglaFont.className}>
             <div className="max-w-7xl mx-auto">
 
-                {/* Section Header */}
+              
                 <div className="flex items-center gap-1 mb-6">
                     <span className="text-[#1A9951] text-[16px]">▼</span>
 
@@ -66,14 +66,14 @@ export default async function PriceDecreased() {
                     </h2>
                 </div>
 
-                {/* Product Cards Grid */}
+               
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {decreasedProducts.map((product) => (
                         <div
                             key={product.id}
                             className="bg-[#FAFCFA] rounded-2xl p-5 shadow-sm border border-gray-100/80 flex flex-col justify-between hover:shadow-md transition-shadow"
                         >
-                            {/* Top Row */}
+                       
                             <div className="flex items-center">
                                 <div className="w-12 h-12 rounded-xl bg-[#F0F5F0] flex items-center justify-center text-2xl flex-shrink-0">
                                     {product.image}
@@ -90,7 +90,7 @@ export default async function PriceDecreased() {
                                 </div>
                             </div>
 
-                            {/* Bottom Row */}
+                          
                             <div className="flex items-end justify-between mt-4">
                                 <div>
                                     <span className="text-xs text-gray-500 font-medium block mb-0.5">
@@ -108,7 +108,7 @@ export default async function PriceDecreased() {
                                     </div>
                                 </div>
 
-                                {/* Percentage */}
+                           
                                 <div className="bg-[#F0F5F0] text-[#1A9951] text-xs font-bold px-2.5 py-1 rounded-lg flex items-center space-x-1">
                                     <span className="text-[10px]">▼</span>
 

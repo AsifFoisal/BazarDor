@@ -2,6 +2,7 @@ import { Hind_Siliguri } from 'next/font/google';
 import CategoryLink from './CategoruLink';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Suspense } from 'react';
 interface Category {
     id: string;
     nameBn: string;
@@ -22,7 +23,7 @@ export default async function Header() {
     const date = new Date().toLocaleDateString("bn-BD", {
         dateStyle: "full",
     });
-    
+
     const categories: Category[] = await CategoryData();
     return (
         <header className="w-full bg-[#FAFCFA] border-b border-gray-100 shadow-sm font-sans ">
@@ -66,11 +67,14 @@ export default async function Header() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <nav className="flex items-center space-x-8 overflow-x-auto no-scrollbar">
                         {categories.map((category: Category) => (
-                            <CategoryLink
-                                key={category.id}
-                                category={category}
-                                fontClass={banglaFont.className}
-                            />
+                            <Suspense key={category.id} fallback={<div className="w-24 h-8 bg-gray-200 rounded-full animate-pulse" />}>
+
+                                <CategoryLink
+                                    key={category.id}
+                                    category={category}
+                                    fontClass={banglaFont.className}
+                                />
+                            </Suspense>
                         ))}
                     </nav>
                 </div>

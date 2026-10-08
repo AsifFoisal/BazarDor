@@ -62,20 +62,20 @@ export default async function PriceMarquee() {
                             key={`${item.id}-${index}`}
                             className="flex items-center space-x-2 border-r border-gray-200 px-6 text-sm font-medium text-gray-800 whitespace-nowrap"
                         >
-                            {/* Category Icon */}
+                            
                             <span className="flex items-center justify-center text-base mr-1">
                                 {item.category === 'rice' ? '🍚' : '🫘'}
                             </span>
 
-                            {/* Item Name */}
+                        
                             <span className={`text-[14px] font-medium text-gray-900 ${banglaFont.className}`}>{item.nameBn}</span>
 
-                            {/* Price & Unit */}
+                          
                             <span className={` ${banglaFont.className} text-gray-600`}>
                                 {toBanglaNumber(item.today)} টাকা/{unitInBangla[item.unit] || item.unit}
                             </span>
 
-                            {/* Percentage Change Indicator */}
+                           
                             <span
                                 className={`flex items-center text-[14px] font-semibold ${item.change.dir === 'up' ? 'text-red-500' : 'text-emerald-600'
                                     }`}
