@@ -54,7 +54,7 @@ export default async function PriceMarquee() {
     const infiniteData: TickerItem[] = [...products, ...products, ...products];
 
     return (
-        <div className="w-full bg-[#f9fafb] border-y border-gray-200 py-3 overflow-hidden select-none">
+        <div className="w-full bg-[#FAFCFA] border-y border-gray-200 py-3 overflow-hidden select-none">
             <Marquee direction="right" pauseOnHover={true} duration={15}>
                 <div className="flex items-center">
                     {infiniteData.map((item, index) => (

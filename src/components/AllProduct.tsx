@@ -42,6 +42,7 @@ const unitInBangla: Record<string, string> = {
 };
 
 export default async function AllProduct() {
+    'use cache'
     const res = await fetch(
         "https://api.abcz.workers.dev/api/bazardor/products"
     );
@@ -66,7 +67,7 @@ export default async function AllProduct() {
                     {products.map((product) => (
                         <div
                             key={product.id}
-                            className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100/80 flex flex-col justify-between hover:shadow-md transition-shadow"
+                            className="bg-[#FAFCFA] rounded-2xl p-5 shadow-sm border border-gray-100/80 flex flex-col justify-between hover:shadow-md transition-shadow"
                         >
                             {/* Top Row */}
                             <div className="flex items-center">

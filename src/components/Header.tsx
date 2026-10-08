@@ -12,7 +12,7 @@ const banglaFont = Hind_Siliguri({ subsets: ['bengali'], weight: ['400', '500', 
 
 
 export default async function Header() {
-
+    'use cache'
     const CategoryData = async () => {
         const res = await fetch("https://api.abcz.workers.dev/api/bazardor/categories");
         const data = await res.json();
@@ -25,7 +25,7 @@ export default async function Header() {
     
     const categories: Category[] = await CategoryData();
     return (
-        <header className="w-full bg-white border-b border-gray-100 shadow-sm font-sans ">
+        <header className="w-full bg-[#FAFCFA] border-b border-gray-100 shadow-sm font-sans ">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-20">
                     <Link href="/" className="flex items-center">

@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Marquee from "@/components/PriceMarquee";
 import PriceMarquee from "@/components/PriceMarquee";
+import Footer from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Header/>
         <PriceMarquee/>
         <main>{children}</main>
+        <Footer/>
       </body>
     </html>
   );

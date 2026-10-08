@@ -9,7 +9,7 @@ const banglaFont = Hind_Siliguri({ subsets: ['bengali'], weight: ['400', '500', 
 
 export default function Hero() {
     return (
-        <section className={"w-full bg-white py-12 md:py-1 mt-4 rounded-3xl  max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" + banglaFont.className}>
+        <section className={"w-full bg-[#FAFCFA] py-12 md:py-1 mt-4 rounded-3xl  max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" + banglaFont.className}>
             <div className="">
                 <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12">
 
