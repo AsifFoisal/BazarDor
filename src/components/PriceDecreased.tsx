@@ -1,5 +1,5 @@
 import { Hind_Siliguri } from "next/font/google";
-
+import Link from "next/link";
 const banglaFont = Hind_Siliguri({
     subsets: ["bengali"],
     weight: ["400", "500", "600", "700"],
@@ -69,7 +69,8 @@ export default async function PriceDecreased() {
                
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {decreasedProducts.map((product) => (
-                        <div
+                        <Link
+                            href={`/product/${product.id}`}
                             key={product.id}
                             className="bg-[#FAFCFA] rounded-2xl p-5 shadow-sm border border-gray-100/80 flex flex-col justify-between hover:shadow-md transition-shadow"
                         >
@@ -117,7 +118,7 @@ export default async function PriceDecreased() {
                                     </span>
                                 </div>
                             </div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
 

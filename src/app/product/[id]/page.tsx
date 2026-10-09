@@ -1,5 +1,8 @@
+import BreadCrumbs from "@/components/BreadCrumbs";
 import { Hind_Siliguri } from "next/font/google";
+import Image from "next/image";
 export const instant = false;
+import Link from "next/link";
 const banglaFont = Hind_Siliguri({
     subsets: ["bengali"],
     weight: ["400", "500", "600", "700"],
@@ -19,6 +22,8 @@ interface Product {
     unit: string;
     today: number;
     image: string;
+    category: string;
+    categoryNameBn: string;
     change: {
         dir: "up" | "down";
         pct: number;
@@ -34,6 +39,22 @@ interface PageProps {
         id: string;
     }>;
 }
+
+const unitInBangla: Record<string, string> = {
+    kg: "কেজি",
+    kilogram: "কেজি",
+    kilograms: "কেজি",
+    g: "গ্রাম",
+    gram: "গ্রাম",
+    grams: "গ্রাম",
+    liter: "লিটার",
+    litre: "লিটার",
+    liters: "লিটার",
+    litres: "লিটার",
+    piece: "টি",
+    pieces: "টি",
+    dozen: "ডজন",
+};
 
 const toBanglaNumber = (
     value: number | string | null | undefined
@@ -64,18 +85,14 @@ export default async function ProductDetail({ params }: PageProps) {
         <div
             className={`${banglaFont.className} w-full bg-[#f4f6f3] min-h-screen py-6 px-4 sm:px-6 lg:px-8`}
         >
-            <div className="max-w-6xl mx-auto space-y-6">
+            <div className="max-w-7xl mx-auto space-y-6">
 
-                {/* Breadcrumb */}
-                <nav className="text-xs sm:text-sm text-gray-500 flex items-center space-x-2 space-x-reverse font-medium">
-                    <span>হোম</span>
-                    <span>›</span>
-                    <span>চাল</span>
-                    <span>›</span>
-                    <span className="text-gray-800">{product.nameBn}</span>
-                </nav>
 
-                {/* Product Header */}
+
+                <BreadCrumbs product={product} />
+
+
+
                 <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 
                     <div className="flex items-start space-x-4 space-x-reverse">
@@ -89,11 +106,11 @@ export default async function ProductDetail({ params }: PageProps) {
                             </h1>
 
                             <p className="text-xs sm:text-sm text-gray-500 font-medium mt-1">
-                                {product.unit}
+                                প্রতি {unitInBangla[product.unit] || product.unit} · {product.categoryNameBn}
                             </p>
 
                             <p className="text-xs text-gray-500 font-medium mt-1">
-                                গতকালকের তুলনায় আজ দাম{" "}
+                                গতকালকের তুলনায় আজ দাম{" "}
                                 <span
                                     className={
                                         isUp ? "font-bold text-red-600" : "font-bold text-emerald-600"
@@ -105,7 +122,7 @@ export default async function ProductDetail({ params }: PageProps) {
                         </div>
                     </div>
 
-                    {/* Today's Price */}
+
                     <div className="bg-[#f8f9fa] border border-gray-100 rounded-xl p-4 text-center min-w-[140px]">
                         <span className="text-xs text-gray-500 font-medium block">
                             আজকের দাম
@@ -131,10 +148,10 @@ export default async function ProductDetail({ params }: PageProps) {
                     </div>
                 </div>
 
-                {/* Details */}
+
                 <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 space-y-6">
 
-                    {/* Price Summary */}
+
                     <div>
                         <h2 className="text-base sm:text-lg font-bold text-gray-900 mb-4">
                             দামের সারসংক্ষেপ
@@ -190,7 +207,7 @@ export default async function ProductDetail({ params }: PageProps) {
                         </div>
                     </div>
 
-                    {/* Market Table */}
+
                     <div>
                         <h2 className="text-base sm:text-lg font-bold text-gray-900 mb-4">
                             বাজারভিত্তিক আজকের দাম

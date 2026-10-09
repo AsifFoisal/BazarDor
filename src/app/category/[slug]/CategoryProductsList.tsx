@@ -93,7 +93,7 @@ export default function CategoryProductsList({ products }: ProductSortProps) {
                         >
 
                             <div className="flex items-center">
-                                <div className="w-12 h-12 rounded-xl bg-[#F0F5F0] flex items-center justify-center text-2xl flex-shrink-0">
+                                <div className="w-12 h-12 rounded-xl bg-[#F0F5F0] flex items-center justify-center text-2xl shrink-0">
                                     {product.image}
                                 </div>
 

@@ -1,5 +1,5 @@
 import { Hind_Siliguri } from "next/font/google";
-
+import Link from "next/link";
 const banglaFont = Hind_Siliguri({
     subsets: ["bengali"],
     weight: ["400", "500", "600", "700"],
@@ -50,7 +50,7 @@ export default async function AllProduct() {
     const products: Product[] = await res.json();
 
     return (
-        <section className={"w-full py-8 px-4 sm:px-6 lg:px-8 " + banglaFont.className}>
+        <section id="সব-পণ্য" className={"w-full py-8 px-4 sm:px-6 lg:px-8 " + banglaFont.className}>
             <div className="max-w-7xl mx-auto">
 
                
@@ -65,7 +65,8 @@ export default async function AllProduct() {
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {products.map((product) => (
-                        <div
+                        <Link
+                            href={`/product/${product.id}`}
                             key={product.id}
                             className="bg-[#FAFCFA] rounded-2xl p-5 shadow-sm border border-gray-100/80 flex flex-col justify-between hover:shadow-md transition-shadow"
                         >
@@ -113,7 +114,7 @@ export default async function AllProduct() {
                                     </span>
                                 </div>
                             </div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
 

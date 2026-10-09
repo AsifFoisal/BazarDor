@@ -2,7 +2,6 @@
 import { Hind_Siliguri } from "next/font/google";
 export const instant = false;
 import CategoryProductsList from "./CategoryProductsList";
-import Link from "next/link";
 import { Suspense } from "react";
 const banglaFont = Hind_Siliguri({
     subsets: ["bengali"],
