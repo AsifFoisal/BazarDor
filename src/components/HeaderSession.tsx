@@ -49,7 +49,7 @@ export default function HeaderSession() {
                         </div>
                     </Popover.Trigger>
 
-                    <Popover.Content className="w-[260px] p-2 rounded-2xl bg-white shadow-xl border border-gray-100">
+                    <Popover.Content className="w-65 p-2 rounded-2xl bg-white shadow-xl border border-gray-100">
                         <Popover.Dialog>
                             {/* User Header Info */}
                             <div className="mb-3">

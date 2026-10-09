@@ -1,8 +1,7 @@
 import BreadCrumbs from "@/components/BreadCrumbs";
 import { Hind_Siliguri } from "next/font/google";
-import Image from "next/image";
 export const instant = false;
-import Link from "next/link";
+
 const banglaFont = Hind_Siliguri({
     subsets: ["bengali"],
     weight: ["400", "500", "600", "700"],
@@ -133,7 +132,7 @@ export default async function ProductDetail({ params }: PageProps) {
                     </div>
 
 
-                    <div className="bg-[#f8f9fa] border border-gray-100 rounded-xl p-4 text-center min-w-[140px]">
+                    <div className="bg-[#f8f9fa] border border-gray-100 rounded-xl p-4 text-center min-w-35">
                         <span className="text-xs text-gray-500 font-medium block">
                             আজকের দাম
                         </span>
