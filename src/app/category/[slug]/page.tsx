@@ -43,8 +43,8 @@ export default async function CategoryProducts({ params, }: { params: { slug: st
     'use cache';
     const { slug } = await params;
     const [catRes, prodRes] = await Promise.all([
-        fetch(`https://api.abcz.workers.dev/api/bazardor/categories/${slug}`),
-        fetch(`https://api.abcz.workers.dev/api/bazardor/products?category=${slug}`
+        fetch(`https://api.api-store.workers.dev/api/bazardor/categories/${slug}`),
+        fetch(`https://api.api-store.workers.dev/api/bazardor/products?category=${slug}`
 
         ),
     ]);

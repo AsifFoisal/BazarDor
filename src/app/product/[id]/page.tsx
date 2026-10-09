@@ -11,9 +11,8 @@ const banglaFont = Hind_Siliguri({
 interface Market {
     market: string;
     division: string;
-    minPrice: number;
-    maxPrice: number;
-    avgPrice: number;
+    min: number;
+    max: number;
 }
 
 interface Product {
@@ -21,6 +20,9 @@ interface Product {
     nameBn: string;
     unit: string;
     today: number;
+    yesterday: number;
+    lastWeek: number;
+    lastMonth: number;
     image: string;
     category: string;
     categoryNameBn: string;
@@ -38,6 +40,14 @@ interface PageProps {
     params: Promise<{
         id: string;
     }>;
+}
+
+const maxPrice = (product: Product): number => {
+    return Math.max(product.today, product.yesterday, product.lastWeek, product.lastMonth);
+}
+
+const minPrice = (product: Product): number => {
+    return Math.min(product.today, product.yesterday, product.lastWeek, product.lastMonth);
 }
 
 const unitInBangla: Record<string, string> = {
@@ -74,7 +84,7 @@ export default async function ProductDetail({ params }: PageProps) {
     const { id } = await params;
 
     const res = await fetch(
-        `https://api.abcz.workers.dev/api/bazardor/products/${id}`
+        `https://api.api-store.workers.dev/api/bazardor/products/${id}`
     );
 
     const product: Product = await res.json();
@@ -83,7 +93,7 @@ export default async function ProductDetail({ params }: PageProps) {
 
     return (
         <div
-            className={`${banglaFont.className} w-full bg-[#f4f6f3] min-h-screen py-6 px-4 sm:px-6 lg:px-8`}
+            className={`${banglaFont.className} w-full bg-[#f4f6f3] min-h-screen py-6 px-4 sm:px-6 lg:px-8 lg:mb-10`}
         >
             <div className="max-w-7xl mx-auto space-y-6">
 
@@ -116,7 +126,7 @@ export default async function ProductDetail({ params }: PageProps) {
                                         isUp ? "font-bold text-red-600" : "font-bold text-emerald-600"
                                     }
                                 >
-                                    {isUp ? "বেড়েছে" : "কমেছে"}
+                                    {isUp ? "বেড়েছে" : "কমেছে"} · {toBanglaNumber(product.today - product.yesterday)} টাকা
                                 </span>
                             </p>
                         </div>
@@ -159,13 +169,15 @@ export default async function ProductDetail({ params }: PageProps) {
 
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
 
-                            <div className="bg-[#fbfcfb] border border-gray-100/80 rounded-xl p-4">
+                            <div className="bg-[#FAFCFA] border border-gray-200 rounded-xl p-4">
                                 <span className="text-xs text-gray-500 font-medium block">
                                     সর্বনিম্ন দাম
                                 </span>
 
                                 <div className="text-xl font-bold text-emerald-600 my-1">
-                                    {toBanglaNumber(product.minPrice)}{" "}
+                                    {
+                                        toBanglaNumber(minPrice(product))
+                                    }{" "}
                                     <span className="text-sm">টাকা</span>
                                 </div>
 
@@ -174,13 +186,13 @@ export default async function ProductDetail({ params }: PageProps) {
                                 </span>
                             </div>
 
-                            <div className="bg-[#fbfcfb] border border-gray-100/80 rounded-xl p-4">
+                            <div className="bg-[#FAFCFA] border border-gray-200 rounded-xl p-4">
                                 <span className="text-xs text-gray-500 font-medium block">
                                     সর্বাধিক দাম
                                 </span>
 
                                 <div className="text-xl font-bold text-red-600 my-1">
-                                    {toBanglaNumber(product.maxPrice)}{" "}
+                                    {toBanglaNumber(maxPrice(product))}{" "}
                                     <span className="text-sm">টাকা</span>
                                 </div>
 
@@ -189,13 +201,13 @@ export default async function ProductDetail({ params }: PageProps) {
                                 </span>
                             </div>
 
-                            <div className="bg-[#fbfcfb] border border-gray-100/80 rounded-xl p-4">
+                            <div className="bg-[#FAFCFA] border border-gray-200 rounded-xl p-4">
                                 <span className="text-xs text-gray-500 font-medium block">
                                     গড় দাম
                                 </span>
 
                                 <div className="text-xl font-bold text-emerald-600 my-1">
-                                    {toBanglaNumber(product.avgPrice)}{" "}
+                                    {toBanglaNumber((maxPrice(product) + minPrice(product)) / 2)}{" "}
                                     <span className="text-sm">টাকা</span>
                                 </div>
 
@@ -208,21 +220,20 @@ export default async function ProductDetail({ params }: PageProps) {
                     </div>
 
 
-                    <div>
+                    <div className={`${banglaFont.className}`}>
                         <h2 className="text-base sm:text-lg font-bold text-gray-900 mb-4">
                             বাজারভিত্তিক আজকের দাম
                         </h2>
 
-                        <div className="overflow-x-auto">
+                        <div className="overflow-x-auto border border-gray-200 rounded-xl">
                             <table className="w-full text-left border-collapse">
-
                                 <thead>
                                     <tr className="border-b border-gray-100 text-xs sm:text-sm font-semibold text-gray-600">
                                         <th className="py-3 px-2">বাজার</th>
                                         <th className="py-3 px-2">বিভাগ</th>
                                         <th className="py-3 px-2">সর্বনিম্ন</th>
                                         <th className="py-3 px-2">সর্বাধিক</th>
-                                        <th className="py-3 px-2 text-right">গড়</th>
+                                        <th className="py-3 px-2 text-right">গড়</th>
                                     </tr>
                                 </thead>
 
@@ -230,7 +241,7 @@ export default async function ProductDetail({ params }: PageProps) {
                                     {product.markets.map((market) => (
                                         <tr
                                             key={market.market}
-                                            className="hover:bg-gray-50/50 transition-colors"
+                                            className="bg-white even:bg-[#F0F5F0] hover:bg-gray-100/60 transition-colors"
                                         >
                                             <td className="py-3.5 px-2 font-semibold text-gray-900">
                                                 {market.market}
@@ -241,20 +252,19 @@ export default async function ProductDetail({ params }: PageProps) {
                                             </td>
 
                                             <td className="py-3.5 px-2 text-gray-700">
-                                                {toBanglaNumber(market.minPrice)} টাকা
+                                                {toBanglaNumber(market.min)} টাকা
                                             </td>
 
                                             <td className="py-3.5 px-2 text-gray-700">
-                                                {toBanglaNumber(market.maxPrice)} টাকা
+                                                {toBanglaNumber(market.max)} টাকা
                                             </td>
 
                                             <td className="py-3.5 px-2 text-right font-bold text-gray-900">
-                                                {toBanglaNumber(market.avgPrice)} টাকা
+                                                {toBanglaNumber((market.min + market.max) / 2)} টাকা
                                             </td>
                                         </tr>
                                     ))}
                                 </tbody>
-
                             </table>
                         </div>
                     </div>

@@ -42,7 +42,7 @@ const banglaFont = Hind_Siliguri({ subsets: ['bengali'], weight: ['400', '500', 
 export default async function PriceMarquee() {
     "use cache";
     const MarqueeData = async () => {
-        const res = await fetch("https://api.abcz.workers.dev/api/bazardor/products");
+        const res = await fetch("https://api.api-store.workers.dev/api/bazardor/products");
         const data = await res.json();
         return data;
     }
