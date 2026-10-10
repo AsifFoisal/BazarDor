@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { Hind_Siliguri } from "next/font/google";
@@ -42,7 +42,6 @@ export default function UpdateProfileForm() {
 
     const user = session?.user;
 
-
     const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -53,36 +52,30 @@ export default function UpdateProfileForm() {
         const formData = new FormData(e.currentTarget);
         const name = formData.get("name") as string;
 
-        const loadingToast = toast.loading("আপডেট হচ্ছে...");
+        const toastId = toast.loading("আপডেট হচ্ছে...");
 
         try {
             const { error } = await authClient.updateUser({
                 name,
             });
 
-            toast.dismiss(loadingToast);
-
             if (error) {
-                toast.error(error.message || "আপডেট ব্যর্থ হয়েছে");
+                toast.error(error.message || "আপডেট ব্যর্থ হয়েছে", { id: toastId });
+                setLoading(false);
                 return;
             }
 
             await refetch();
             router.refresh();
 
-            toast.success("আপডেট সফল হয়েছে!");
+            toast.success("আপডেট সফল হয়েছে!", { id: toastId });
 
             router.push("/profile");
         } catch (err) {
-            toast.dismiss(loadingToast);
-            toast.error("একটি অপ্রত্যাশিত ত্রুটি ঘটেছে।");
-        } finally {
+            toast.error("একটি অপ্রত্যাশিত ত্রুটি ঘটেছে।", { id: toastId });
             setLoading(false);
         }
     };
-
-
-
 
     return (
         <div className={`min-h-screen bg-[#F0F4F1] p-6 md:p-12 text-gray-800 ${banglaFont.className}`}>
