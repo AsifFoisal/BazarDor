@@ -99,12 +99,23 @@ async function AllProductContent() {
                                 </div>
                             </div>
 
-                            <div className="bg-[#F0F5F0] text-[#D03739] text-xs font-bold px-2.5 py-1 rounded-lg flex items-center space-x-1">
-                                <span className="text-[10px]">▲</span>
-
-                                <span>
-                                    {toBanglaNumber(product.change.pct)}%
+                            <div
+                                className={`text-xs font-bold px-2.5 py-1 rounded-lg flex items-center space-x-1 ${product.change.dir === "up"
+                                        ? "bg-[#FEF2F2] text-[#D03739]"
+                                        : product.change.dir === "down"
+                                            ? "bg-[#F0FDF4] text-[#16A34A]"
+                                            : "bg-[#F5F5F5] text-[#737373]"
+                                    }`}
+                            >
+                                <span className="text-[10px]">
+                                    {product.change.dir === "up"
+                                        ? "▲"
+                                        : product.change.dir === "down"
+                                            ? "▼"
+                                            : "−"}
                                 </span>
+
+                                <span>{toBanglaNumber(product.change.pct)}%</span>
                             </div>
                         </div>
                     </Link>

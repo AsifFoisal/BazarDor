@@ -79,7 +79,7 @@ export default function UpdateProfileForm() {
             await refetch();
             toast.success("নাম সফলভাবে আপডেট হয়েছে!");
 
-            // Let toast render and be readable before navigating
+
             setTimeout(() => {
                 toast.dismiss();
                 router.push("/profile");
