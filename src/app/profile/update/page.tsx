@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { Hind_Siliguri } from "next/font/google";
@@ -17,6 +17,12 @@ export default function UpdateProfileForm() {
     const nameRef = useRef<HTMLInputElement>(null);
     const [isUpdating, setIsUpdating] = useState(false);
     const router = useRouter();
+
+    useEffect(() => {
+        return () => {
+            toast.dismiss();
+        };
+    }, []);
 
     if (isPending) {
         return (
@@ -44,7 +50,6 @@ export default function UpdateProfileForm() {
 
     const user = session?.user;
 
-
     const handleUpdate = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
@@ -58,7 +63,7 @@ export default function UpdateProfileForm() {
         }
 
         if (newName === user?.name) {
-            toast("নামে কোনো পরিবর্তন করা হয়নি।");
+            toast("নামে কোনো পরিবর্তন করা হয়নি।");
             return;
         }
 
@@ -70,32 +75,28 @@ export default function UpdateProfileForm() {
             });
 
             if (error) {
-                toast.error(error.message || "নাম আপডেট করা যায়নি।");
+                toast.error(error.message || "নাম আপডেট করা যায়নি।");
                 return;
             }
 
             await refetch();
 
-            toast.success("নাম সফলভাবে আপডেট হয়েছে!");
+            toast.success("নাম সফলভাবে আপডেট হয়েছে!");
 
-            router.refresh();
+            
+            toast.dismiss();
+
             router.push("/profile");
         } catch {
-            toast.error("কিছু একটা সমস্যা হয়েছে। আবার চেষ্টা করো।");
+            toast.error("কিছু একটা সমস্যা হয়েছে। আবার চেষ্টা করো।");
         } finally {
             setIsUpdating(false);
         }
     };
 
-
-
-
-
-
-
     return (
         <div className={`min-h-screen bg-[#F0F4F1] p-6 md:p-12 text-gray-800 ${banglaFont.className}`}>
-            <Toaster position="top-center" />
+            <Toaster position="top-center" toastOptions={{ duration: 3000 }} />
 
             <div className="max-w-xl mx-auto space-y-6">
                 <div className="flex items-center justify-between">
