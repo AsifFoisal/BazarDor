@@ -236,7 +236,7 @@ export default function SignUpPage() {
                     </Button>
                 </div>
 
-                <div className="text-center mt-6 text-xs font-semibold text-gray-600">
+                <div className="text-center mt-6 text-sm font-semibold text-gray-600">
                     অ্যাকাউন্ট আছে?{" "}
                     <Link className="text-[#05893E] hover:underline font-bold" href="/sign-in">
                         সাইন ইন করুন
@@ -244,7 +244,7 @@ export default function SignUpPage() {
                 </div>
             </div>
 
-            <Link className="mt-6 text-xs font-medium text-gray-500 hover:text-gray-700 transition-colors" href="/">
+            <Link className="mt-6 text-md font-medium text-gray-500 hover:text-gray-700 transition-colors" href="/">
                 ← হোম পেজে ফিরে যান
             </Link>
         </div>

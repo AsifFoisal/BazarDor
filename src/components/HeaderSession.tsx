@@ -128,7 +128,7 @@ export default function HeaderSession() {
 
     return (
         <>
-            <div className="flex items-center gap-2 sm:gap-3">
+            <div className={` ${banglaFont.className} flex items-center gap-2 sm:gap-3`}>
                 <Link
                     href="/sign-in"
                     className="rounded-lg px-4 py-3 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 hover:text-gray-900"

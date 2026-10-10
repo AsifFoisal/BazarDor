@@ -218,7 +218,7 @@ export default function SignInPage() {
                     </Button>
                 </div>
 
-                <div className="text-center mt-6 text-xs font-semibold text-gray-600">
+                <div className="text-center mt-6 text-sm font-semibold text-gray-600">
                     অ্যাকাউন্ট নেই?{" "}
                     <Link className="text-[#05893E] hover:underline font-bold" href="/sign-up">
                         সাইন আপ করুন
