@@ -60,7 +60,8 @@ export default function UpdateProfileForm() {
             });
 
             if (error) {
-                toast.error(error.message || "আপডেট ব্যর্থ হয়েছে", { id: toastId });
+                toast.dismiss(toastId);
+                toast.error(error.message || "আপডেট ব্যর্থ হয়েছে");
                 setLoading(false);
                 return;
             }
@@ -68,10 +69,17 @@ export default function UpdateProfileForm() {
             await refetch();
             router.refresh();
 
-            toast.success("আপডেট সফল হয়েছে!", { id: toastId });
+            toast.dismiss(toastId);
+            toast.success("আপডেট সফল হয়েছে!");
 
+            // Reset loading state and redirect after 1 second
+            setTimeout(() => {
+                setLoading(false);
+                router.push("/profile");
+            }, 1000);
         } catch (err) {
-            toast.error("একটি অপ্রত্যাশিত ত্রুটি ঘটেছে।", { id: toastId });
+            toast.dismiss(toastId);
+            toast.error("একটি অপ্রত্যাশিত ত্রুটি ঘটেছে।");
             setLoading(false);
         }
     };
