@@ -35,7 +35,7 @@ export default function Hero() {
                         <div className="pt-2">
                             <a href="#সব-পণ্য"
                                 type="button"
-                                className="bg-[#05893E] hover:bg-[#007339] text-white font-medium text-base px-6 py-3 rounded-xl shadow-md transition-all duration-200 active:scale-95"
+                                className={`${banglaFont.className} bg-[#05893E] hover:bg-[#007339] text-white font-medium text-base px-6 py-3 rounded-xl shadow-md transition-all duration-200 active:scale-95`}
                             >
                                 সব পণ্য দেখুন
                             </a>
