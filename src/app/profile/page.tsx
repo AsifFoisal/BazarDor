@@ -66,14 +66,23 @@ export default function ProfileView() {
                 </div>
 
                 <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    
                     <div className="flex items-center gap-4">
-                        <Image
-                            src={user?.image || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150"}
-                            alt="Profile"
-                            width={64}
-                            height={64}
-                            className="w-16 h-16 rounded-2xl object-cover"
-                        />
+                        {user?.image ? (
+                            <Image
+                                src={user.image}
+                                alt={user.name || "Profile"}
+                                width={64}
+                                height={64}
+                                className="h-16 w-16 rounded-2xl object-cover"
+                                unoptimized
+                            />
+                        ) : (
+                            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gray-200 text-xl font-bold">
+                                {user?.name?.charAt(0)?.toUpperCase() || "U"}
+                            </div>
+                        )}
+
                         <div>
                             <h2 className="text-xl font-bold text-gray-900">
                                 {user?.name || "ব্যবহারকারী"}
@@ -81,6 +90,8 @@ export default function ProfileView() {
                             <p className="text-sm text-gray-500">{user?.email}</p>
                         </div>
                     </div>
+                    
+
 
                     <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
                         <button

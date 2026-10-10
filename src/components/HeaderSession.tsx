@@ -14,11 +14,9 @@ const banglaFont = Hind_Siliguri({
 });
 
 export default function HeaderSession() {
-    // Destructure refetch from useSession
     const { data: session, isPending, refetch } = useSession();
     const router = useRouter();
 
-    // Listen for profile updates globally and trigger an instant session refetch
     useEffect(() => {
         const handleAuthUpdate = () => {
             refetch();

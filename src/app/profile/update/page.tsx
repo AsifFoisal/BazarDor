@@ -14,7 +14,6 @@ const banglaFont = Hind_Siliguri({
 export default function UpdateProfileForm() {
     const { data: session, isPending, refetch } = authClient.useSession();
     const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState({ type: "", text: "" });
     const router = useRouter();
 
     if (isPending) {
@@ -46,10 +45,11 @@ export default function UpdateProfileForm() {
     const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true);
-        setMessage({ type: "", text: "" });
 
         const formData = new FormData(e.currentTarget);
         const name = formData.get("name") as string;
+
+        const loadingToast = toast.loading("আপডেট হচ্ছে...");
 
         try {
             const { error } = await authClient.updateUser({
@@ -57,19 +57,24 @@ export default function UpdateProfileForm() {
             });
 
             if (error) {
+                toast.dismiss(loadingToast);
                 toast.error(error.message || "আপডেট ব্যর্থ হয়েছে");
+                setLoading(false);
             } else {
-                toast.success("আপডেট সফল হয়েছে!");
+                // Wait for session refetch to fully complete from the server before routing
                 await refetch();
-                window.dispatchEvent(new Event("auth-update")); // Sync header instantly
+                window.dispatchEvent(new Event("auth-update"));
 
-                setTimeout(() => {
-                    router.push("/profile");
-                }, 1000);
+                toast.dismiss(loadingToast);
+                toast.success("আপডেট সফল হয়েছে!");
+
+                // Immediate clean navigation after backend state is fully verified
+                router.push("/profile");
+                router.refresh();
             }
         } catch (err) {
+            toast.dismiss(loadingToast);
             toast.error("একটি অপ্রত্যাশিত ত্রুটি ঘটেছে।");
-        } finally {
             setLoading(false);
         }
     };
@@ -79,8 +84,6 @@ export default function UpdateProfileForm() {
             <Toaster position="top-center" />
 
             <div className="max-w-xl mx-auto space-y-6">
-
-                
                 <div className="flex items-center justify-between">
                     <div>
                         <h1 className="text-2xl font-bold text-gray-900">প্রোফাইল আপডেট করুন</h1>
@@ -94,14 +97,7 @@ export default function UpdateProfileForm() {
                     </button>
                 </div>
 
-               
                 <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 space-y-6">
-                    {message.text && (
-                        <div className={`p-3 rounded-xl text-sm ${message.type === "error" ? "bg-red-50 text-red-600" : "bg-green-50 text-green-700"}`}>
-                            {message.text}
-                        </div>
-                    )}
-
                     <form onSubmit={handleUpdate} className="space-y-6">
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -126,7 +122,6 @@ export default function UpdateProfileForm() {
                         </button>
                     </form>
                 </div>
-
             </div>
         </div>
     );
