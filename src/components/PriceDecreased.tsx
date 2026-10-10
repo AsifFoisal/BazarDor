@@ -1,5 +1,7 @@
 import { Hind_Siliguri } from "next/font/google";
 import Link from "next/link";
+import { Suspense } from "react";
+
 const banglaFont = Hind_Siliguri({
     subsets: ["bengali"],
     weight: ["400", "500", "600", "700"],
@@ -41,8 +43,7 @@ const unitInBangla: Record<string, string> = {
     dozen: "ডজন",
 };
 
-export default async function PriceDecreased() {
-    'use cache'
+async function PriceDecreasedContent() {
     const res = await fetch(
         "https://openapi.programming-hero.com/api/bazardor/products"
     );
@@ -54,10 +55,95 @@ export default async function PriceDecreased() {
         .slice(0, 6);
 
     return (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {decreasedProducts.map((product) => (
+                <Link
+                    href={`/product/${product.id}`}
+                    key={product.id}
+                    className="bg-[#FAFCFA] rounded-2xl p-5 shadow-sm border border-gray-100/80 flex flex-col justify-between hover:shadow-md transition-shadow"
+                >
+                    <div className="flex items-center">
+                        <div className="w-12 h-12 rounded-xl bg-[#F0F5F0] flex items-center justify-center text-2xl shrink-0">
+                            {product.image}
+                        </div>
+
+                        <div>
+                            <h3 className="text-base font-bold text-gray-900 px-3 leading-tight">
+                                {product.nameBn}
+                            </h3>
+
+                            <p className="text-xs text-gray-500 font-medium px-3 mt-1">
+                                {unitInBangla[product.unit.toLowerCase()] || product.unit}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="flex items-end justify-between mt-4">
+                        <div>
+                            <span className="text-xs text-gray-500 font-medium block mb-0.5">
+                                আজকের দাম
+                            </span>
+
+                            <div className="flex items-baseline space-x-1">
+                                <span className="text-lg font-bold text-gray-900">
+                                    {toBanglaNumber(product.today)}
+                                </span>
+
+                                <span className="text-sm font-semibold text-gray-900">
+                                    টাকা
+                                </span>
+                            </div>
+                        </div>
+
+                        <div className="bg-[#F0F5F0] text-[#1A9951] text-xs font-bold px-2.5 py-1 rounded-lg flex items-center space-x-1">
+                            <span className="text-[10px]">▼</span>
+
+                            <span>
+                                {toBanglaNumber(product.change.pct)}%
+                            </span>
+                        </div>
+                    </div>
+                </Link>
+            ))}
+        </div>
+    );
+}
+
+function PriceDecreasedSkeleton() {
+    return (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[1, 2, 3, 4, 5, 6].map((item) => (
+                <div
+                    key={item}
+                    className="bg-[#FAFCFA] rounded-2xl p-5 shadow-sm border border-gray-100/80 flex flex-col justify-between animate-pulse"
+                >
+                    <div className="flex items-center">
+                        <div className="w-12 h-12 rounded-xl bg-gray-200 shrink-0" />
+                        <div className="space-y-2 px-3 w-full">
+                            <div className="h-4 bg-gray-200 rounded w-3/4" />
+                            <div className="h-3 bg-gray-200 rounded w-1/2" />
+                        </div>
+                    </div>
+
+                    <div className="flex items-end justify-between mt-6">
+                        <div className="space-y-1 w-1/2">
+                            <div className="h-3 bg-gray-200 rounded w-1/3" />
+                            <div className="h-5 bg-gray-200 rounded w-2/3" />
+                        </div>
+                        <div className="w-12 h-6 bg-gray-200 rounded-lg" />
+                    </div>
+                </div>
+            ))}
+        </div>
+    );
+}
+
+export default async function PriceDecreased() {
+    'use cache'
+
+    return (
         <section className={"w-full py-8 px-4 sm:px-6 lg:px-8 " + banglaFont.className}>
             <div className="max-w-7xl mx-auto">
-
-              
                 <div className="flex items-center gap-1 mb-6">
                     <span className="text-[#1A9951] text-[16px]">▼</span>
 
@@ -66,62 +152,9 @@ export default async function PriceDecreased() {
                     </h2>
                 </div>
 
-               
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {decreasedProducts.map((product) => (
-                        <Link
-                            href={`/product/${product.id}`}
-                            key={product.id}
-                            className="bg-[#FAFCFA] rounded-2xl p-5 shadow-sm border border-gray-100/80 flex flex-col justify-between hover:shadow-md transition-shadow"
-                        >
-                       
-                            <div className="flex items-center">
-                                <div className="w-12 h-12 rounded-xl bg-[#F0F5F0] flex items-center justify-center text-2xl shrink-0">
-                                    {product.image}
-                                </div>
-
-                                <div>
-                                    <h3 className="text-base font-bold text-gray-900 px-3 leading-tight">
-                                        {product.nameBn}
-                                    </h3>
-
-                                    <p className="text-xs text-gray-500 font-medium px-3 mt-1">
-                                        {unitInBangla[product.unit.toLowerCase()] || product.unit}
-                                    </p>
-                                </div>
-                            </div>
-
-                          
-                            <div className="flex items-end justify-between mt-4">
-                                <div>
-                                    <span className="text-xs text-gray-500 font-medium block mb-0.5">
-                                        আজকের দাম
-                                    </span>
-
-                                    <div className="flex items-baseline space-x-1">
-                                        <span className="text-lg font-bold text-gray-900">
-                                            {toBanglaNumber(product.today)}
-                                        </span>
-
-                                        <span className="text-sm font-semibold text-gray-900">
-                                            টাকা
-                                        </span>
-                                    </div>
-                                </div>
-
-                           
-                                <div className="bg-[#F0F5F0] text-[#1A9951] text-xs font-bold px-2.5 py-1 rounded-lg flex items-center space-x-1">
-                                    <span className="text-[10px]">▼</span>
-
-                                    <span>
-                                        {toBanglaNumber(product.change.pct)}%
-                                    </span>
-                                </div>
-                            </div>
-                        </Link>
-                    ))}
-                </div>
-
+                <Suspense fallback={<PriceDecreasedSkeleton />}>
+                    <PriceDecreasedContent />
+                </Suspense>
             </div>
         </section>
     );

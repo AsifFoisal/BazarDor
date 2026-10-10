@@ -1,6 +1,7 @@
 import { Hind_Siliguri } from 'next/font/google';
 import React from 'react';
 import Marquee from 'react-marquee-text';
+import Link from 'next/link';
 
 interface TickerItem {
     id: string;
@@ -8,6 +9,7 @@ interface TickerItem {
     nameBn: string;
     today: number;
     unit: string;
+    categoryIcon: string;
     change: {
         dir: 'up' | 'down';
         pct: number;
@@ -57,24 +59,21 @@ export default async function PriceMarquee() {
             <Marquee direction="right" pauseOnHover={true} duration={15}>
                 <div className="flex items-center">
                     {infiniteData.map((item, index) => (
-                        <div
+                        <Link
+                            href={`/product/${item.id}`}
                             key={`${item.id}-${index}`}
-                            className="flex items-center space-x-2 border-r border-gray-200 px-6 text-sm font-medium text-gray-800 whitespace-nowrap"
+                            className="flex items-center space-x-2 border-r border-gray-200 px-6 text-sm font-medium text-gray-800 whitespace-nowrap hover:bg-gray-100/50 transition-colors cursor-pointer"
                         >
-                            
                             <span className="flex items-center justify-center text-base mr-1">
-                                {item.category === 'rice' ? '🍚' : '🫘'}
+                                {item.categoryIcon}
                             </span>
 
-                        
                             <span className={`text-[14px] font-medium text-gray-900 ${banglaFont.className}`}>{item.nameBn}</span>
 
-                          
                             <span className={` ${banglaFont.className} text-gray-600`}>
                                 {toBanglaNumber(item.today)} টাকা/{unitInBangla[item.unit] || item.unit}
                             </span>
 
-                           
                             <span
                                 className={`flex items-center text-[14px] font-semibold ${item.change.dir === 'up' ? 'text-red-500' : 'text-emerald-600'
                                     }`}
@@ -84,7 +83,7 @@ export default async function PriceMarquee() {
                                 </span>
                                 <span>{toBanglaNumber(item.change.pct)}%</span>
                             </span>
-                        </div>
+                        </Link>
                     ))}
                 </div>
             </Marquee>
