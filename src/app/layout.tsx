@@ -33,11 +33,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Header />
         <PriceMarquee />
         <main>
-          <Toaster position="top-center" />
           <Suspense fallback={null}>
             <AuthRedirectHandler />
           </Suspense>
-          
+
           {children}
 
         </main>
