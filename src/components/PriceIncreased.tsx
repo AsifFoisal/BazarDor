@@ -45,7 +45,7 @@ const unitInBangla: Record<string, string> = {
 export default async function PriceIncreased() {
     'use cache'
     const res = await fetch(
-        "https://api.api-store.workers.dev/api/bazardor/products"
+        "https://openapi.programming-hero.com/api/bazardor/products"
     );
 
     const products: Product[] = await res.json();
