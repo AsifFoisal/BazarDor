@@ -1,6 +1,6 @@
 # বাজার দর / BazarDor
 
-বাজার দর (BazaarDor) is a modern, real-time web application designed to track, compare, and display up-to-date market prices of daily essential commodities in Bangladesh. Built with performance, responsiveness, and localization in mind, it bridges the gap between consumers and accurate market trends.
+বাজার দর (BazarDor) is a modern, real-time web application designed to track, compare, and display up-to-date market prices of daily essential commodities in Bangladesh. Built with performance, responsiveness, and localization in mind, it bridges the gap between consumers and accurate market trends.
 
 ---
 
