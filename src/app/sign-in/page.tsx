@@ -55,7 +55,7 @@ export default function SignInPage() {
 
     return (
         <div className={`min-h-screen bg-[#f4f6f3] flex flex-col items-center justify-center p-4 ${banglaFont.className}`}>
-            {/* Header Title */}
+            
             <div className="text-center mb-6">
                 <h1 className="text-3xl font-extrabold text-gray-900 mb-1">
                     সাইন ইন
@@ -65,10 +65,10 @@ export default function SignInPage() {
                 </p>
             </div>
 
-            {/* Container Box */}
+            
             <div className="w-full max-w-md bg-white border border-gray-100 shadow-sm rounded-2xl p-6">
                 <Form className="flex flex-col gap-4" onSubmit={onSubmit}>
-                    {/* Email Field */}
+                   
                     <TextField
                         className="flex flex-col gap-1.5"
                         isRequired
@@ -89,7 +89,7 @@ export default function SignInPage() {
                         <FieldError className="text-xs text-red-500" />
                     </TextField>
 
-                    {/* Password Field */}
+                    
                     <TextField
                         className="flex flex-col gap-1.5"
                         isRequired
@@ -111,7 +111,7 @@ export default function SignInPage() {
                         <FieldError className="text-xs text-red-500" />
                     </TextField>
 
-                    {/* Submit Button */}
+                  
                     <Button
                         className="w-full bg-[#05893E] text-white font-bold text-sm py-3 rounded-xl shadow-md hover:bg-[#047233] transition-colors mt-2 cursor-pointer"
                         
@@ -121,7 +121,7 @@ export default function SignInPage() {
                     </Button>
                 </Form>
 
-                {/* Separator */}
+               
                 <div className="relative my-6 flex items-center justify-center">
                     <div className="w-full border-t border-gray-200" />
                     <span className="absolute bg-white px-3 text-xs font-medium text-gray-400">
@@ -129,7 +129,7 @@ export default function SignInPage() {
                     </span>
                 </div>
 
-                {/* Social Buttons */}
+                
                 <div className="grid grid-cols-2 gap-3">
                     <Button
                         type="button"
@@ -175,7 +175,7 @@ export default function SignInPage() {
                     </Button>
                 </div>
 
-                {/* Sign up redirect link */}
+               
                 <div className="text-center mt-6 text-xs font-semibold text-gray-600">
                     অ্যাকাউন্ট নেই?{" "}
                     <Link className="text-[#05893E] hover:underline font-bold" href="/sign-up">
@@ -184,7 +184,7 @@ export default function SignInPage() {
                 </div>
             </div>
 
-            {/* Back to Home link */}
+           
             <Link className="mt-6 text-xs font-medium text-gray-500 hover:text-gray-700 transition-colors" href="/">
                 ← হোম পেজে ফিরে যান
             </Link>
