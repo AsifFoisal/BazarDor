@@ -4,6 +4,9 @@ import "./globals.css";
 import Header from "@/components/Header";
 import PriceMarquee from "@/components/PriceMarquee";
 import Footer from "@/components/Footer";
+import { Toaster } from "react-hot-toast";
+import { Suspense } from "react";
+import AuthRedirectHandler from "@/components/AuthRedirectHandler";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,10 +30,18 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased scroll-smooth`}
     >
       <body className="min-h-full flex flex-col bg-[#F0F5F0]">
-        <Header/>
-        <PriceMarquee/>
-        <main>{children}</main>
-        <Footer/>
+        <Header />
+        <PriceMarquee />
+        <main>
+          <Toaster position="top-center" />
+          <Suspense fallback={null}>
+            <AuthRedirectHandler />
+          </Suspense>
+          
+          {children}
+
+        </main>
+        <Footer />
       </body>
     </html>
   );

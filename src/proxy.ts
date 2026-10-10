@@ -8,7 +8,7 @@ export default async function proxy(request: NextRequest) {
     })
 
     if (!session) {
-        return NextResponse.redirect(new URL("/sign-in", request.url));
+        return NextResponse.redirect(new URL("/sign-in?error=unauthorized", request.url));
     }
 
     return NextResponse.next();

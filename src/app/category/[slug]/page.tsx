@@ -98,7 +98,7 @@ export default async function CategoryProducts({ params, }: { params: { slug: st
 // 404-style error fallback component
 function NotFoundState({ fontClass }: { fontClass: string }) {
     return (
-        <div className={`${fontClass} w-full bg-[#f4f6f3] min-h-screen flex items-center justify-center p-4`}>
+        <div className={`${fontClass} w-full bg-[#f4f6f3] min-h-screen flex items-center p-4`}>
             <div className="bg-white rounded-3xl p-8 sm:p-12 shadow-sm border border-gray-100 text-center max-w-md w-full space-y-4">
                 <div className="w-16 h-16 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center text-3xl mx-auto">
                     ⚠️

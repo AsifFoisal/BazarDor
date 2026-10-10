@@ -1,36 +1,25 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# বাজার দর / BazarDor
 
-## Getting Started
+বাজার দর (BazaarDor) is a modern, real-time web application designed to track, compare, and display up-to-date market prices of daily essential commodities in Bangladesh. Built with performance, responsiveness, and localization in mind, it bridges the gap between consumers and accurate market trends.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Technologies Used
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+* Next.js (App Router)
+* Tailwind CSS
+* TypeScript
+* HeroUI
+* Better Auth (with MongoDB adapter)
+* React Hot Toast
+* Custom Bengali typography (`Hind_Siliguri`) and numeric script converters
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Key Features
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+* **Real-Time Price Marquee**: A continuous, pause-on-hover moving ticker displaying live commodity updates, price fluctuations, and percentage changes with direct access to product detail pages.
+* **Dynamic Price Trend Categorization**: Dedicated views highlighting commodities whose prices have increased or decreased today, complete with skeleton loading states for enhanced perceived performance.
+* **Bengali Localization**: Fully localized user interface featuring custom utilities that automatically convert standard numeric digits into authentic Bengali script alongside native unit translations (e.g., কেজি, ডজন, লিটার).
+* **Secure Authentication & User Profile**: Complete sign-in, sign-up, and profile management flows supporting email/password and social providers (Google, GitHub) backed by instant header state synchronization and toast notifications.
+* **Advanced Server-Side Caching & Routing**: Optimized data fetching utilizing Next.js caching directives and client-side navigation (`useRouter`) to ensure lightning-fast page transitions and reliable error handling (such as 404 fallback views).
