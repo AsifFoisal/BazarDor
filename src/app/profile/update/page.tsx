@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { Hind_Siliguri } from "next/font/google";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import type { FormEvent } from "react";
 
 const banglaFont = Hind_Siliguri({
@@ -93,7 +93,7 @@ export default function UpdateProfileForm() {
 
     return (
         <div className={`min-h-screen bg-[#F0F4F1] p-6 md:p-12 text-gray-800 ${banglaFont.className}`}>
-            <Toaster position="top-center" toastOptions={{ duration: 3000 }} />
+            
 
             <div className="max-w-xl mx-auto space-y-6">
                 <div className="flex items-center justify-between">

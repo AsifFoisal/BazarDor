@@ -13,7 +13,7 @@ import {
     TextField,
 } from "@heroui/react";
 import { signIn, signUp, useSession } from "@/lib/auth-client";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 const banglaFont = Hind_Siliguri({
@@ -107,7 +107,6 @@ export default function SignUpPage() {
 
     return (
         <div className={`min-h-screen bg-[#f4f6f3] flex flex-col items-center p-4 ${banglaFont.className}`}>
-            <Toaster position="top-center" />
 
             <div className="text-center mb-6">
                 <h1 className="text-3xl font-extrabold text-gray-900 mb-1">
