@@ -72,7 +72,6 @@ export default function UpdateProfileForm() {
             toast.dismiss(toastId);
             toast.success("আপডেট সফল হয়েছে!");
 
-            // Reset loading state and redirect after 1 second
             setTimeout(() => {
                 setLoading(false);
                 router.push("/profile");
