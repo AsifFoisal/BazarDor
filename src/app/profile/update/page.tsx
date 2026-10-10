@@ -60,28 +60,33 @@ export default function UpdateProfileForm() {
             });
 
             if (error) {
-                toast.dismiss(toastId);
-                toast.error(error.message || "আপডেট ব্যর্থ হয়েছে");
-                setLoading(false);
+                toast.error(error.message || "আপডেট ব্যর্থ হয়েছে", {
+                    id: toastId,
+                    duration: 4000,
+                });
                 return;
             }
 
             await refetch();
+
+            toast.success("আপডেট সফল হয়েছে!", {
+                id: toastId,
+                duration: 2000,
+            });
+
             router.refresh();
-
-            toast.dismiss(toastId);
-            toast.success("আপডেট সফল হয়েছে!");
-
-            setTimeout(() => {
-                setLoading(false);
-                router.push("/profile");
-            }, 1000);
+            router.push("/profile");
         } catch (err) {
-            toast.dismiss(toastId);
-            toast.error("একটি অপ্রত্যাশিত ত্রুটি ঘটেছে।");
+            toast.error("একটি অপ্রত্যাশিত ত্রুটি ঘটেছে।", {
+                id: toastId,
+                duration: 4000,
+            });
+        } finally {
             setLoading(false);
         }
     };
+
+
 
     return (
         <div className={`min-h-screen bg-[#F0F4F1] p-6 md:p-12 text-gray-800 ${banglaFont.className}`}>
