@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { Hind_Siliguri } from "next/font/google";
 import toast, { Toaster } from "react-hot-toast";
+import type { FormEvent } from "react";
 
 const banglaFont = Hind_Siliguri({
     subsets: ["bengali"],
@@ -13,7 +14,8 @@ const banglaFont = Hind_Siliguri({
 
 export default function UpdateProfileForm() {
     const { data: session, isPending, refetch } = authClient.useSession();
-    const [loading, setLoading] = useState(false);
+    const nameRef = useRef<HTMLInputElement>(null);
+    const [isUpdating, setIsUpdating] = useState(false);
     const router = useRouter();
 
     if (isPending) {
@@ -42,49 +44,52 @@ export default function UpdateProfileForm() {
 
     const user = session?.user;
 
-    const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
 
-        if (loading) return;
+    const handleUpdate = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
 
-        setLoading(true);
+        if (isUpdating) return;
 
-        const formData = new FormData(e.currentTarget);
-        const name = formData.get("name") as string;
+        const newName = nameRef.current?.value.trim() ?? "";
 
-        const toastId = toast.loading("আপডেট হচ্ছে...");
+        if (newName.length < 2) {
+            toast.error("নাম কমপক্ষে ২ অক্ষরের হতে হবে।");
+            return;
+        }
+
+        if (newName === user?.name) {
+            toast("নামে কোনো পরিবর্তন করা হয়নি।");
+            return;
+        }
+
+        setIsUpdating(true);
 
         try {
             const { error } = await authClient.updateUser({
-                name,
+                name: newName,
             });
 
             if (error) {
-                toast.error(error.message || "আপডেট ব্যর্থ হয়েছে", {
-                    id: toastId,
-                    duration: 4000,
-                });
+                toast.error(error.message || "নাম আপডেট করা যায়নি।");
                 return;
             }
 
             await refetch();
 
-            toast.success("আপডেট সফল হয়েছে!", {
-                id: toastId,
-                duration: 2000,
-            });
+            toast.success("নাম সফলভাবে আপডেট হয়েছে!");
 
             router.refresh();
             router.push("/profile");
-        } catch (err) {
-            toast.error("একটি অপ্রত্যাশিত ত্রুটি ঘটেছে।", {
-                id: toastId,
-                duration: 4000,
-            });
+        } catch {
+            toast.error("কিছু একটা সমস্যা হয়েছে। আবার চেষ্টা করো।");
         } finally {
-            setLoading(false);
+            setIsUpdating(false);
         }
     };
+
+
+
+
 
 
 
@@ -113,6 +118,7 @@ export default function UpdateProfileForm() {
                                 নাম
                             </label>
                             <input
+                                ref={nameRef}
                                 type="text"
                                 name="name"
                                 defaultValue={user?.name || ""}
@@ -124,10 +130,10 @@ export default function UpdateProfileForm() {
 
                         <button
                             type="submit"
-                            disabled={loading}
+                            disabled={isUpdating}
                             className="w-full py-3.5 bg-[#00873E] hover:bg-[#007335] text-white font-medium rounded-xl shadow-md transition disabled:opacity-50 cursor-pointer"
                         >
-                            {loading ? "আপডেট হচ্ছে..." : "পরিবর্তন সংরক্ষণ করুন"}
+                            {isUpdating ? "আপডেট হচ্ছে..." : "পরিবর্তন সংরক্ষণ করুন"}
                         </button>
                     </form>
                 </div>
