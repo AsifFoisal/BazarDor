@@ -61,16 +61,17 @@ export default function UpdateProfileForm() {
                 toast.error(error.message || "আপডেট ব্যর্থ হয়েছে");
                 setLoading(false);
             } else {
-                // Wait for session refetch to fully complete from the server before routing
+                // Force local session state refresh
                 await refetch();
-                window.dispatchEvent(new Event("auth-update"));
+
+                // Tell Next.js router to clear cache and revalidate server state
+                router.refresh();
 
                 toast.dismiss(loadingToast);
                 toast.success("আপডেট সফল হয়েছে!");
 
-                // Immediate clean navigation after backend state is fully verified
+                // Push to profile after revalidation
                 router.push("/profile");
-                router.refresh();
             }
         } catch (err) {
             toast.dismiss(loadingToast);
