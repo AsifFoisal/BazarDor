@@ -35,7 +35,6 @@ export default function UpdateProfileForm() {
                         </div>
                         <div className="h-4 w-28 bg-gray-200 rounded-lg" />
                     </div>
-
                     <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 space-y-6">
                         <div className="space-y-2">
                             <div className="h-4 w-12 bg-gray-200 rounded-lg" />
@@ -52,7 +51,6 @@ export default function UpdateProfileForm() {
 
     const handleUpdate = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
         if (isUpdating) return;
 
         const newName = nameRef.current?.value.trim() ?? "";
@@ -70,26 +68,24 @@ export default function UpdateProfileForm() {
         setIsUpdating(true);
 
         try {
-            const { error } = await authClient.updateUser({
-                name: newName,
-            });
+            const { error } = await authClient.updateUser({ name: newName });
 
             if (error) {
                 toast.error(error.message || "নাম আপডেট করা যায়নি।");
+                setIsUpdating(false);
                 return;
             }
 
             await refetch();
-
             toast.success("নাম সফলভাবে আপডেট হয়েছে!");
 
-            
-            toast.dismiss();
-
-            router.push("/profile");
+            // Let toast render and be readable before navigating
+            setTimeout(() => {
+                toast.dismiss();
+                router.push("/profile");
+            }, 1500);
         } catch {
             toast.error("কিছু একটা সমস্যা হয়েছে। আবার চেষ্টা করো।");
-        } finally {
             setIsUpdating(false);
         }
     };
@@ -115,9 +111,7 @@ export default function UpdateProfileForm() {
                 <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 space-y-6">
                     <form onSubmit={handleUpdate} className="space-y-6">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                নাম
-                            </label>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">নাম</label>
                             <input
                                 ref={nameRef}
                                 type="text"
