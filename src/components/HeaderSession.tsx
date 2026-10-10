@@ -1,9 +1,12 @@
 "use client";
 
-import { signOut, useSession } from "@/lib/auth-client";
+import { useSession } from "@/lib/auth-client";
 import { Avatar, Button, Popover } from "@heroui/react";
 import { Hind_Siliguri } from "next/font/google";
 import Link from "next/link";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const banglaFont = Hind_Siliguri({
     subsets: ["bengali"],
@@ -11,8 +14,21 @@ const banglaFont = Hind_Siliguri({
 });
 
 export default function HeaderSession() {
-    const { data: session, isPending } = useSession();
-;
+    // Destructure refetch from useSession
+    const { data: session, isPending, refetch } = useSession();
+    const router = useRouter();
+
+    // Listen for profile updates globally and trigger an instant session refetch
+    useEffect(() => {
+        const handleAuthUpdate = () => {
+            refetch();
+        };
+
+        window.addEventListener("auth-update", handleAuthUpdate);
+        return () => {
+            window.removeEventListener("auth-update", handleAuthUpdate);
+        };
+    }, [refetch]);
 
     if (isPending) {
         return (
@@ -25,6 +41,17 @@ export default function HeaderSession() {
 
     if (session?.user) {
         const userInitial = session.user.name?.charAt(0).toUpperCase() || "U";
+
+        const handleSignOut = async () => {
+            await authClient.signOut({
+                fetchOptions: {
+                    onSuccess: () => {
+                        window.dispatchEvent(new Event("auth-update"));
+                        router.push("/");
+                    },
+                },
+            });
+        };
 
         return (
             <div className={"flex items-center gap-6"}>
@@ -51,7 +78,6 @@ export default function HeaderSession() {
 
                     <Popover.Content className="w-65 p-2 rounded-2xl bg-white shadow-xl border border-gray-100">
                         <Popover.Dialog>
-                            {/* User Header Info */}
                             <div className="mb-3">
                                 <p className="font-bold text-base text-gray-900">
                                     {session.user.name}
@@ -63,7 +89,6 @@ export default function HeaderSession() {
 
                             <hr className="border-gray-100 my-2" />
 
-                            {/* Options */}
                             <div className={`flex flex-col mt-2 ${banglaFont.className}`}>
                                 <Link
                                     href="/profile"
@@ -76,7 +101,7 @@ export default function HeaderSession() {
                                 <Button
                                     type="button"
                                     variant="secondary"
-                                    onClick={() => signOut()}
+                                    onClick={handleSignOut}
                                     className="flex items-center justify-start w-full gap-2 rounded-xl py-2 text-sm font-regular text-red-600 bg-transparent shadow-none hover:bg-red-50 transition-colors cursor-pointer"
                                 >
                                     <span className="text-base">↩</span>

@@ -54,7 +54,7 @@ export default function SignInPage() {
     };
 
     return (
-        <div className={`min-h-screen bg-[#f4f6f3] flex flex-col items-center justify-center p-4 ${banglaFont.className}`}>
+        <div className={`min-h-screen bg-[#f4f6f3] flex flex-col items-center  p-4 ${banglaFont.className}`}>
             
             <div className="text-center mb-6">
                 <h1 className="text-3xl font-extrabold text-gray-900 mb-1">
