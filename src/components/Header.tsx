@@ -1,5 +1,5 @@
 import { Hind_Siliguri } from 'next/font/google';
-import CategoryLink from './CategoruLink';
+import CategoryLink from './CategoryLink';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Suspense } from 'react';

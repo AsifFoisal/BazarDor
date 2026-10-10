@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { Hind_Siliguri } from "next/font/google";
@@ -42,8 +42,12 @@ export default function UpdateProfileForm() {
 
     const user = session?.user;
 
+
     const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        if (loading) return;
+
         setLoading(true);
 
         const formData = new FormData(e.currentTarget);
@@ -53,32 +57,32 @@ export default function UpdateProfileForm() {
 
         try {
             const { error } = await authClient.updateUser({
-                name: name,
+                name,
             });
 
+            toast.dismiss(loadingToast);
+
             if (error) {
-                toast.dismiss(loadingToast);
                 toast.error(error.message || "আপডেট ব্যর্থ হয়েছে");
-                setLoading(false);
-            } else {
-                // Force local session state refresh
-                await refetch();
-
-                // Tell Next.js router to clear cache and revalidate server state
-                router.refresh();
-
-                toast.dismiss(loadingToast);
-                toast.success("আপডেট সফল হয়েছে!");
-
-                // Push to profile after revalidation
-                router.push("/profile");
+                return;
             }
+
+            await refetch();
+            router.refresh();
+
+            toast.success("আপডেট সফল হয়েছে!");
+
+            router.push("/profile");
         } catch (err) {
             toast.dismiss(loadingToast);
             toast.error("একটি অপ্রত্যাশিত ত্রুটি ঘটেছে।");
+        } finally {
             setLoading(false);
         }
     };
+
+
+
 
     return (
         <div className={`min-h-screen bg-[#F0F4F1] p-6 md:p-12 text-gray-800 ${banglaFont.className}`}>
