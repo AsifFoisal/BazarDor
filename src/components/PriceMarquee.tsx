@@ -49,7 +49,6 @@ export default async function PriceMarquee() {
 
     const toBanglaNumber = (value: number | string) => { const banglaDigits = '০১২৩৪৫৬৭৮৯'; return value.toString().replace(/[0-9]/g, (digit) => banglaDigits[Number(digit)]); };
 
-
     const products = await MarqueeData();
     const infiniteData: TickerItem[] = [...products, ...products, ...products];
 

@@ -58,7 +58,7 @@ export default function HeaderSession() {
                 <Popover>
                     <Popover.Trigger aria-label="User profile menu">
                         <div className="flex items-center gap-2 cursor-pointer p-1 rounded-xl transition-colors hover:bg-gray-100/60">
-                            <Avatar size="sm">
+                            <Avatar className="rounded" size="sm">
                                 {session.user.image ? (
                                     <Avatar.Image
                                         alt={session.user.name || "User"}

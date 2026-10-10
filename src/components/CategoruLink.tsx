@@ -22,7 +22,7 @@ export default function CategoryLink({
         <Link
             href={`/category/${category.id}`}
             className={`${fontClass} ${isActive
-                    ? "text-green-600 bg-green-50"
+                    ? "text-green-700 bg-green-100"
                     : "text-gray-700 hover:bg-gray-100"
                 } px-3 py-2 rounded-md`}
         >

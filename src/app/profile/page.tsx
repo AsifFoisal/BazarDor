@@ -4,6 +4,12 @@ import React, { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import Image from "next/image";
 import { redirect, useRouter } from "next/navigation";
+import { Hind_Siliguri } from "next/font/google";
+
+const banglaFont = Hind_Siliguri({
+    subsets: ["bengali"],
+    weight: ["400", "500", "600", "700"],
+});
 
 export default function ProfileView() {
     const { data: session, isPending, refetch } = authClient.useSession();
@@ -56,11 +62,11 @@ export default function ProfileView() {
     };
 
     return (
-        <div className="min-h-screen bg-[#F0F4F1] p-6 md:p-12 text-gray-800">
+        <div className={`min-h-screen bg-[#F0F4F1] p-6 md:p-12 text-gray-800 ${banglaFont.className}`}>
             <div className="max-w-3xl mx-auto space-y-6">
 
                 {/* Header Section */}
-                <div>
+                <div className={`${banglaFont.className}`}>
                     <h1 className="text-3xl font-bold text-gray-900">আমার প্রোফাইল</h1>
                     <p className="text-sm text-gray-500 mt-1">আপনার অ্যাকাউন্টের তথ্য এখানে দেখুন।</p>
                 </div>
