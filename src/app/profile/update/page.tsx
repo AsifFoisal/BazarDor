@@ -70,7 +70,6 @@ export default function UpdateProfileForm() {
 
             toast.success("আপডেট সফল হয়েছে!", { id: toastId });
 
-            router.push("/profile");
         } catch (err) {
             toast.error("একটি অপ্রত্যাশিত ত্রুটি ঘটেছে।", { id: toastId });
             setLoading(false);
