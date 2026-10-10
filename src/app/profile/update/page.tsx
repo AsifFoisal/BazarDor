@@ -83,6 +83,7 @@ export default function UpdateProfileForm() {
             setTimeout(() => {
                 toast.dismiss();
                 router.push("/profile");
+                setIsUpdating(false);
             }, 1500);
         } catch {
             toast.error("কিছু একটা সমস্যা হয়েছে। আবার চেষ্টা করো।");
