@@ -5,7 +5,7 @@ import { Avatar, Button, Popover } from "@heroui/react";
 import { Hind_Siliguri } from "next/font/google";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
 
 const banglaFont = Hind_Siliguri({
@@ -16,7 +16,14 @@ const banglaFont = Hind_Siliguri({
 export default function HeaderSession() {
     const { data: session, isPending, refetch } = useSession();
     const router = useRouter();
+    const pathname = usePathname();
 
+    // Refetch session whenever the route changes (e.g., coming back from profile update)
+    useEffect(() => {
+        refetch();
+    }, [pathname, refetch]);
+
+    // Listen for custom auth-update events as well
     useEffect(() => {
         const handleAuthUpdate = () => {
             refetch();
@@ -46,6 +53,7 @@ export default function HeaderSession() {
                     onSuccess: () => {
                         window.dispatchEvent(new Event("auth-update"));
                         router.push("/");
+                        router.refresh();
                     },
                 },
             });
