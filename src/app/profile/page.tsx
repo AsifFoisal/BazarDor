@@ -5,6 +5,7 @@ import { authClient } from "@/lib/auth-client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Hind_Siliguri } from "next/font/google";
+import toast from "react-hot-toast";
 
 const banglaFont = Hind_Siliguri({
     subsets: ["bengali"],
@@ -46,14 +47,19 @@ export default function ProfileView() {
     const user = session?.user;
 
     const handleSignOut = async () => {
-        await authClient.signOut({
-            fetchOptions: {
-                onSuccess: () => {
-                    window.dispatchEvent(new Event("auth-update"));
-                    router.push("/");
+        try {
+            await authClient.signOut({
+                fetchOptions: {
+                    onSuccess: () => {
+                        toast.success("সফলভাবে লগ আউট হয়েছে।");
+                        window.dispatchEvent(new Event("auth-update"));
+                        router.push("/");
+                    },
                 },
-            },
-        });
+            });
+        } catch {
+            toast.error("লগ আউট করতে সমস্যা হয়েছে। আবার চেষ্টা করো।");
+        }
     };
 
     return (
